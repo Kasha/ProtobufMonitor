@@ -31,7 +31,7 @@ The following can be configured:
 4. Choose a set of Protobuf Message -> Attributes to be displayed
 5. Set write_csv = True to log in excel arrived Protobuf message
 Communication\Defines\config.yaml 
-
+____________________________________________________________________________________________________________________________
 1. Example configuration which ignores, timestamp_pb2.py, GisData_pb2.py, DataStructure_pb2.py, RailwayAI_pb2.py
 2. Example of attributes to display for PositionData message, defined in GPSData python Protobuff modules
 {GpsData_pb2: {PositionData: { gpsTime: 1, longitude: 1,latitude: 1, altitude: 1, heading: 1, yaw: 1, pitch: 1, roll: 1, velocity: 1, messageTime: 1, messageIndex: 1} }}}

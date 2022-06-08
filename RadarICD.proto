@@ -1,0 +1,180 @@
+//protoc --proto_path=./ --csharp_out=..\Common\Seefar.Interfaces\Radar\ --csharp_opt=base_namespace=Seefar.Interfaces.Radar .\RadarICD.proto
+//protoc --proto_path=./ --python_out=./py/ .\RadarICD.proto
+syntax = "proto3";
+
+package Seefar.Interfaces.Radar;
+
+import "Common.proto";
+import "timestamp.proto";
+import "DataStructure.proto";
+import "GisData.proto";
+import "GpsData.proto";
+
+message RadarMessageHeader{
+    Seefar.Interfaces.Common.MessageHeader               msgHeader          =1;
+    int64                       messageID       =2;
+    int32                       radarID         =3;
+}
+
+message RadarInit{
+    RadarMessageHeader               header          =1;
+    Seefar.Interfaces.Gis.GeoOffset offsetFromGPS   =2;
+}
+
+enum RadarCommandEnum{
+    TxOn                =0;
+    TxOff               =1;
+    RadarOn             =2;
+    RadarOff            =3;
+    RequestIMU          =4; 
+    RecordingOn         =5;
+    RecordingOff        =6;
+}
+enum Urgency{
+    NaUrgency          =0;
+    LowUrgency         =1;
+    MediumUrgency      =2;
+    HighUrgency        =3;
+}
+
+enum SceneType{
+    Na          =0;
+    Urban       =1;
+    Country     =2;
+    Forest      =3;
+    Mountain    =4;      
+}
+
+enum Sensitivity{
+    NaSense      =0;
+    LowSense     =1;
+    MediumSense  =2;
+    HighSense    =3;
+}
+enum TxState{
+    TxOffState       =0;
+    TxOnState        =1;
+}
+
+enum Operability{
+    Full        =0;
+    Degraded    =1;
+    Fail        =2;
+}
+
+enum FailureReason {
+    Temperture   =0;
+    HwRx         =1;
+    HwTx         =2;
+    SwVer        =3;
+}
+
+message RadarCommand{
+    RadarMessageHeader          header          =1;
+    RadarCommandEnum            command         =2;         
+}
+
+message SetROI{
+    RadarMessageHeader          header          =1;
+    int64                       roiID           =2;
+    float                       maxRange        =3; // in meters
+    float                       minAzimuth      =4; // in milli radians
+    float                       maxAzimuth      =5; // in milli radians
+    Urgency                     roiUrgency      =6;
+    SceneType                   roiSceneType    =7;
+    Sensitivity                 roiSensitivity  =8;
+    bool                        outOfGauge      =9;
+    float                       gaugeWidth      =10; // in meters
+}
+
+message GisSegments{
+    RadarMessageHeader                          header          =1;
+    repeated Seefar.Interfaces.Gis.GisSegment   routeData       =2;
+}
+
+message GisPointsOfInterest{
+    RadarMessageHeader                          header          =1;
+    repeated GisPoiData                         pois            =3;
+}
+
+
+message GisPoiData{    
+    Seefar.Interfaces.AI.SignalType type        =1;
+    Seefar.Interfaces.Gis.GeoPoint  location    =2;    
+}
+/*
+Radar status report message
+*/
+message RadarStatusReport{
+    RadarMessageHeader              header          =1;
+    TxState                         txState         =2;
+    Operability                     operability     =3;
+    FailureReason                   failReason      =4;
+    float                           maxAlertRange   =5;//in meters , radar estimation
+    bool                            isOperational   =6; //operating or not ( can be in calibration or gradual power-up)
+}
+
+/*
+a structure representing a detection found by the radar
+*/
+message RadarDetection{
+    int32           targetID        =1;
+    float           range           =2;//in meters
+    float           rangeAcc        =3;//in meters
+    float           azimuth         =4;//in milli radians
+    float           azimuthAcc      =5;//in milli radians
+    float           rangeRate       =6;//  m/sec
+    float           rangeRateAcc    =7;//  m/sec
+    float           azimuthRate     =8;//  mrad/sec
+    float           azimuthRateAcc  =9;//   mrad/sec
+    float           Rcs             =10;
+    float           confidence      =11;
+    float           targetAge       =12; //seconds
+    Seefar.Interfaces.Timestamp lastUpdateTime =13;
+    bool            isExtrapulated   =14;
+    bool            isMultiTarget     =15;
+    bool            isInGauge         =16;
+    Seefar.Interfaces.Gis.GeoPoint location          =17;
+    int64           roiID             =18;
+}
+/*
+this message is used by the radar to report detections to the Seefar system
+*/ 
+message RadarDetectionsReport{
+    RadarMessageHeader              header          =1;
+    repeated RadarDetection         radarDetection  =2;
+}
+/*
+message carrying IMU data to the radar
+*/
+message IMUReport{
+    RadarMessageHeader              header          =1;
+    bool                            isValid         =2;
+    Seefar.Interfaces.Timestamp     measureTime     =3;
+    float                           roll            =4; //milli radians
+    float                           pitch           =5;//milli radians
+    float                           yaw             =6;//milli radians
+    float                           rollRate        =7; //milli radians / seconds
+    float                           pitchRate       =8; //milli radians / seconds
+    float                           yawRate         =9;//milli Radians / seconds    
+}
+/*
+Message sent from Seefar application to the Radar to request a certain preset
+*/
+message RadarPresetRequest{
+    RadarMessageHeader              header          =1;
+    int32                           presetID        =2;
+}
+/*
+Message sent from the Radar to the Seefar application  to acknowledg that the defined preset is active
+*/
+message RadarPresetResponse{
+    RadarMessageHeader              header          =1;
+    int32                           presetID        =2;
+}
+
+message RadarGpsData{
+    RadarMessageHeader                  header          = 1;
+    Seefar.Interfaces.Gps.PositionData  gpsData         = 2;
+}
+

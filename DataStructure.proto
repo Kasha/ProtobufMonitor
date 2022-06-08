@@ -1,0 +1,197 @@
+//protoc --proto_path=./ --csharp_out=..\Common\Seefar.Interfaces\AI\ --csharp_opt=base_namespace=Seefar.Interfaces.AI .\DataStructure.proto
+//protoc --proto_path=./ --python_out=./py/ .\DataStructure.proto
+//protoc --proto_path=./ --cpp_out=./cpp/ .\DataStructure.proto
+syntax = "proto3";
+
+package Seefar.Interfaces.AI;
+
+import "timestamp.proto";
+import "GpsData.proto";
+
+
+/* *************************************************************************************************
+ICD sent to and from Algorithm
+***************************************************************************************************/
+
+enum GpsMode  { Unknown = 0; Manual2D=1 ; Manual3D=2 ; Auto2D=3 ; Auto3D=4 ; Fix=5 ;}
+
+
+message AiGpsData{
+  Seefar.Interfaces.Timestamp GpsTime           =1;
+  float                       Longitude         =2;
+  float                       Latitude          =3;
+  float                       Altitude         =4;
+  float                       Direction         =5;
+  float                       Yaw               =6;
+  float                       Pitch             =7;
+  float                       Roll              =8;
+  float                       Velocity          =9;
+  int32                       NumberOfSatellites=10;
+  GpsMode                     Mode              =11;        
+  int32                       GpsStatus         =12;
+}
+
+
+enum PixelFormat  { PF_RBG = 0;PF_ARGB=1 ; PF_YUV422=2 ; PF_YUV411=3 ; PF_MONO14=4 ; PF_BAYERGR8 = 5 ;}
+
+message AiFOV {
+  float Hfov    = 1;
+  float Vfov    = 2;
+}
+message AiFrameData {
+  int32                       CameraID            =1;
+  int64                       FrameID             =2;
+  Seefar.Interfaces.Timestamp CaptureTime         =3;
+  Seefar.Interfaces.Timestamp FrameGrabTime       =4;
+  int32                       OriginalFrameWidth  =5;
+  int32                       OriginalFrameHeight =6;
+  int32                       ActualFrameWidth    =7;
+  int32                       ActualFrameHeight   =8;
+  int32                       FrameBitsPerPixel   =9;
+  PixelFormat                 FramePixelFormat    =10;
+  int32                       FrameStride         =11;
+  float                       CameraPan           =12;
+  float                       CameraZoom          =13;
+  bool                        IsInZoom            =14;
+  AiFOV                       ImageFOV            =15;
+}
+
+//the message that will be sent to the algorithmic process
+message AiFrameMessage{
+  Seefar.Interfaces.Gps.PositionData FrameGpsData        =1;
+  AiFrameData                 Metadata            =2;
+  Offset                      ULOffsetFromOrigin  =3; //offset of (x,y) from original image origin , in case the image supplied is an ROI . otherwise the value is (0,0)
+  Offset                      RoiBoundsUL         =4; 
+  Offset                      RoiBoundsBR         =5;
+  repeated  TimeLabel         Stages              =6;
+  bool                        FrameOnSharedMemory =7; //true ,if frame is passed using shared memory , in which case the FramePixelArray will contain frame aderess otherwise , FramePixelArray will hold the frame itself
+  SharedMemoryData            SharedMem           =8;
+  bytes                       FramePixelArray     =9;
+}
+
+message SharedMemoryData{
+  string            FD      = 1;
+  int64             Address  = 2;
+}
+
+/* *************************************************************************************************
+ICD sent from Algorithm
+***************************************************************************************************/
+message TimeLabel{
+  string                        Stage   =1;
+  Seefar.Interfaces.Timestamp     Time    =2;
+}
+
+
+message AIDetectionReport{
+  repeated  AiDetection Detections      =1;
+  string                ReportingSystem =2;
+  float                 ProcessingTime  =3;//time too to process the frame
+}
+
+message AISignalsReport{
+  repeated  AiSignal    Signals      =1;
+  string                ReportingSystem =2;
+  float                 ProcessingTime  =3;//time too to process the frame
+}
+
+enum  AiTrackStatus{
+  // Associated the track by detection
+  DETECTION     =0;
+  // Associated the track extrapolation (e.g kalman or visual tracker)
+  EXTRAPOLATION =1;
+}
+
+//represents a detection found on the frame
+message AiDetection{
+  string                        TrackID         =1;
+  Seefar.Interfaces.Timestamp   Timestamp       =2;
+  double                        Distance        =3;
+  double                        Probability     =4;
+  string                        Classification  =5;
+  repeated int32                DetectedInSensor=6;
+  repeated AiDetectedObject     Polygons        =7;
+  Severity                      Severity        =8;
+  repeated  TimeLabel           Stages          =9;
+  double                        SlantRangeMeter =10;
+  double                        RangeMeter      =11;
+  double                        CrossRangeMeter =12;
+  double                        WidthMeter      =13;
+  double                        HeightMeter     =14;
+  double                        DistanceToRailCenterMeter=15;
+  double                        Latitude        =16;
+  double                        Longitude       =17;
+  AiTrackStatus                 TrackStatus     =18;
+
+}
+enum  AiDetectedObjectStatus{
+  // Acquired by ai detection object
+  DETECTED     =0;
+  // Acquired using SM protection
+  PROJECTED  =1;
+}
+//represnets detections' frame specific charecteristics
+message AiDetectedObject{
+  int32               SensorID      =1;
+  int64               FrameID       =2;
+  AiFOV               FOV           =3;
+  Offset              ULBoundingBox =4;
+  Offset              LRBoundingBox =5;
+  bytes               Crop          =6;  
+  AiDetectedObjectStatus status     = 7;
+}
+
+message Offset{
+  int32               X=1;
+  int32               Y=2;
+}
+
+enum  Severity{
+  LOW     =0;
+  MEDIUM  =1;
+  HIGH    =2;
+}
+
+message AiSignal{
+  string                        ReportingSystem =1;
+  Seefar.Interfaces.Timestamp     Timestamp       =2;
+  string                        SignalID        =3;
+  SignalType                    Type            =4;
+  float                         Distance        =5;
+  int32                         RelativeLocation=6; //0 - left , 1 - right
+  double                        Lon             =7;
+  double                        Lat             =8;
+  double                        Alt             =9;
+}
+
+enum  SignalType{
+  Sign          =0;
+  TrafficLight  =1;
+  LevelCrossing =2;
+  TunnelStart   =3;
+  TunnelEnd     =4;
+  StationStart  =5;
+  StationEnd    =6;
+  BridgeStart   =7;
+  BridgeEnd     =8;
+}
+
+message AiTrainDirection{
+  string                        ReportingSystem =1;
+  Seefar.Interfaces.Timestamp     Timestamp       =2;
+  double                        RailsDirection  =3;
+}
+
+message AiCalculatedROI{
+  string                        ReportingSystem =1;
+  double                        MaximumRange    =2;
+  double                        AzimuthMinimal  =3;
+  double                        AzimuthMaximal  =4;
+  int64                         RoiID           =5;
+}
+message AiRecordingHeader {
+  uint32        magicWord         =1;              //constant value 0xABADBABE used to separate the messages between them
+  int64         recordTimeStamp   =2;       //time stamp representing the time in
+  int64         messageLength     =3;         //the length of the message including
+  int32         sourceID          =4;               //the recorded channel ID , as defined in the configuration
+};

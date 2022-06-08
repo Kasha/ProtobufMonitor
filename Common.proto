@@ -1,0 +1,54 @@
+//protoc --proto_path=./ --csharp_out=..\Common\Seefar.Interfaces\ --csharp_opt=base_namespace=Seefar.Interfaces.Common .\Common.proto
+//protoc --proto_path=./ --python_out=./py/ .\Common.proto
+//protoc --proto_path=./ --cpp_out=./cpp/ .\Common.proto
+
+syntax = "proto2";
+
+import "timestamp.proto";
+package Seefar.Interfaces.Common;
+
+message MessageHeader{
+    required Seefar.Interfaces.Timestamp     messageTime     =1;
+    required string                          IcdVersion      =2 [default = "2.6.0"];        //this is not to be assigned Always leave this field with default value
+    optional int64                           cabID           =3;
+    optional string                          messageSource   =4;
+    optional int32                           messageIndex    =5;  
+}
+
+message BitMessage{
+    required MessageHeader header                        = 1;
+    required int32 SourceId                              = 2;
+    required BitStatusEnum BitStatus                     = 3;
+    repeated string ErrorsDescription           = 4;
+}
+
+enum BitStatusEnum{
+    OK              = 0;
+    Degraded        = 1;
+    Failed          = 2;
+}
+
+enum EventSeverity{
+    Info            = 0;
+    Warning         = 1;
+    Error           = 2;
+    Critical        = 3;
+}
+
+message SystemEventMessage{
+    required MessageHeader header            = 1;    
+    required EventSeverity Severity          = 2;
+    required int32 SourceId                  = 3;
+    required string Message                  = 4;
+}
+
+message Offset{
+    required double               X=1;
+    required double               Y=2;
+}
+
+message BoundingBox{
+    required Offset              UL =4;
+    required Offset              LR =5;
+}
+

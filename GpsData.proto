@@ -1,0 +1,67 @@
+//protoc --proto_path=./ --csharp_out=..\Common\Seefar.Interfaces\ --csharp_opt=base_namespace=Seefar.Interfaces.Gps .\GpsData.proto
+//protoc --proto_path=./ --python_out=./py/ .\GpsData.proto
+//protoc --proto_path=./ --cpp_out=./cpp/ .\GpsData.proto
+syntax = "proto3";
+
+import "timestamp.proto";
+import "Common.proto";
+
+
+package Seefar.Interfaces.Gps;
+
+enum HeadingStatus{
+    IneffectiveHeading  = 0;
+    FixSolution         = 4;
+    FloatSolution       = 5;
+}
+enum PositionQuality{
+    IneffectivePosition = 0;
+    SinglePoint         = 1;
+    PseudoRange         = 2;
+}
+
+enum Operability{
+    Full        = 0;
+    Degraded    = 1;
+    Fail        = 2;
+}
+enum GpsMode{
+    Unknown     = 0;
+    Manual2D    = 1;
+    Manual3D    = 2;
+    Auto2D      = 3;
+    Auto3D      = 4;
+    Fix         = 5;
+}
+  
+message PositionData{
+    Seefar.Interfaces.Timestamp             gpsTime             = 1;
+    float                                   longitude           = 2;
+    float                                   latitude            = 3;
+    float                                   altitude            = 4;
+    float                                   heading             = 5;
+    float                                   yaw                 = 6;
+    float                                   pitch               = 7;
+    float                                   roll                = 8;
+    float                                   velocity            = 9; 
+    int32                                   numberOfSatellites  = 10;
+    GpsMode                                 mode                = 11;    
+    int32                                   gpsStatus           = 12;
+    Seefar.Interfaces.Common.MessageHeader  msgHeader           = 13;
+    float                                   sigmaLongitude      = 14;
+    float                                   sigmaLatitude       = 15;
+    float                                   sigmaAltitude       = 16;
+    float                                   velocityNorth       = 17;
+    float                                   velocityEast        = 18;
+    float                                   velocityUp          = 19;
+    float                                   sigmaVelocityNorth  = 20;
+    float                                   sigmaVelocityEast   = 21;
+    float                                   sigmaVelocityUp     = 22;    
+    float                                   sigmaHeading        = 23;
+    float                                   sigmaPitch          = 24;
+    float                                   sigmaRoll           = 25;
+    int32                                   altitudeLockStatus  = 26;
+    HeadingStatus                           headingStatus       = 27;
+    PositionQuality                         positionQuality     = 28;
+    Operability                             operabilityStatus   = 29;
+}    

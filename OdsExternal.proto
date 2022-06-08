@@ -1,0 +1,26 @@
+//generating to the different langs
+//protoc --proto_path=./ --csharp_out=..\OdsGism --csharp_opt=base_namespace=Seefar.OdsExternal .\OdsExternal.proto
+//protoc --proto_path=./ --python_out=..\OdsGism .\Ods_Gism.proto
+//protoc --proto_path=./ --cpp_out=..\OdsGism .\Ods_Gism.proto
+syntax = "proto2";
+
+import "timestamp.proto";
+package OdsExternal;
+//A header structure . The Header is part of every message and carries a time stamp and the current version of the interface . 
+// The icdVersion field is filled automatically by a default value and should not be filled be the instanciators.the default value is
+//
+message OdsGismMsgHeader{
+    required Seefar.Interfaces.Timestamp     messageTime     =1;
+    required string                          icdVersion      =2 [default = "1.0.0"];        //this is not to be assigned Always leave this field with default value
+}
+
+message OdsExternalGpsData{
+  required   OdsGismMsgHeader             msgHeader         = 1;
+  required   float                        longitude         = 2;    //longitude in degrees , WGS-84
+  required   float                        latitude          = 3;    //latitude in degrees , WGS-84
+  required   float                        altitude          = 4;    //altitude in meters
+  required   float                        direction         = 5;    //direction in degrees
+  required   float                        velocity          = 6;    //velocity in meters/sec
+  required   bool                         isValid           = 7;    //indicates whether the Gps data is valid , depending the state of the GPS
+  required   int32                        gpsStatus         = 8;    //GPS status as reported by the GPS
+  } 

@@ -1,0 +1,57 @@
+//protoc --proto_path=./ --csharp_out=..\Common\Seefar.Interfaces\ --csharp_opt=base_namespace=Seefar.Interfaces.AI .\RailwayAI.proto
+//protoc --proto_path=./ --python_out=./py/ .\RailwayAI.proto
+syntax = "proto3";
+
+package Seefar.Interfaces.AI;
+
+import "timestamp.proto";
+import "Common.proto";
+import "DataStructure.proto";
+
+// Updated SM from the railway segmentation output
+message AiRailwayUpdatedSM {
+    double updatedTilt = 1;
+    double updatedYaw = 2;
+  
+    double updatedLocationLatDeg = 3;
+    double updatedLocationLonDeg = 4;
+  };
+  
+  // Detection interface between the detection to the fusion
+  message AIDetectionInternalReport{
+    Seefar.Interfaces.AI.AIDetectionReport DetectionReport = 1;
+  
+    // Related image metadata from the detection's Ai Frame
+    AiGpsData                   FrameGpsData        =2;
+    Seefar.Interfaces.AI.AiFrameData                 Metadata            =3;
+  
+    // Updated SM from latest railway segmentation
+    AiRailwayUpdatedSM UpdatedSM = 4;
+  }
+
+  
+message AiRailRangeEstimation {
+    float row = 1;
+    float dist = 2;
+    float resolution = 3;
+  };
+  
+  enum  AiRailwayCalcMethod{
+    cv   =0;
+    gis  =1;
+  }
+  
+  // Represents a message from the railway semantic segmentation process
+  message AiRailwaysDetectorMessage{
+    AiFrameData metadata =1;
+  
+    repeated float leftRailColBest =2; // Represent the left railways (x,y) coordinates in  pixels
+    repeated float rightRailColBest =3; // Represent the left railways (x,y) coordinates in  pixels
+    repeated float railRowBest =4;
+  
+    AiRailwayCalcMethod calcMethod = 5;
+    repeated AiRailRangeEstimation rangeEstimation = 6;
+  
+    AiRailwayUpdatedSM updatedSM = 7;
+  }  
+  

@@ -1,0 +1,30 @@
+//protoc --proto_path=./ --csharp_out=..\Common\Seefar.Interfaces\ --csharp_opt=base_namespace=Seefar.Interfaces.Gis .\GisData.proto
+//protoc --proto_path=./ --python_out=./py/ .\GisData.proto
+//protoc --proto_path=./ --cpp_out=./cpp/ .\DataStructure.proto
+syntax = "proto3";
+
+import "timestamp.proto";
+package Seefar.Interfaces.Gis;
+
+message GeoOffset{
+    double      OffsetX=1;        // in meters
+    double      OffsetY=2;        //in meters
+    double      OffsetZ=3;        //in meters
+}
+
+message GeoPoint{
+    double      Lat         =1;
+    double      Lon         =2;
+    double      Altitude    =3;
+}
+
+message GisSegment{
+    GeoPoint    start   =1;
+    GeoPoint    end     =2;
+}
+
+message GisSegmentsReport{
+    Seefar.Interfaces.Timestamp   messageTime     =1;
+    repeated GisSegment         RouteData       =2; 
+}
+//protoc --proto_path=./ --csharp_out=./cs/ --csharp_opt=base_namespace=Seefar.Interfaces.Gis .\GisData.proto

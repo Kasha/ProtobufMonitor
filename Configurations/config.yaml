@@ -1,0 +1,8 @@
+debug: False
+info: True
+log_level: 20
+form_width: 600
+form_height: 600
+tab_width: 400
+tab_height: 480
+gatewayID: ProtobufMonitor

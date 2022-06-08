@@ -1,2 +1,4 @@
 /.idea
 /__pycache__
+/Configurations/Localconfig.yaml
+/Modules/__pycache__

@@ -6,7 +6,7 @@ from Communication.Include.ChainResponsibilityCallback import *
 import time
 
 """ Liad Kashanovsky - 
-1. Parses Protobuf messages from modules. Load protbuf x_pb.py modules and parses them
+1. Load and Parse Protobuf messages from Protobuff pre generated modules (x_pb.py modules) 
 2. Create Wrapper objects and setup:
     - ChainResponsibility Callbacks 
     - Publisher to listen with Protobuf class name as topic (Per Protobuf module or general callback)

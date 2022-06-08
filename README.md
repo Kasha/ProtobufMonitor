@@ -3,10 +3,10 @@
 Generic Protobuf Monitor
 
 ## Description
-1. Load generated python Protobuf modules (any [x]_pb.py). 
-2. Parses them into objects. 
+1. Load generated python Protobuf modules (any [x]_pb.py) 
+2. Parses them into objects
 3. Creates a compatible UI per Protobuf Message (Tab+Tilte+Attributes)
-4. Listens to Publisher for arrived Protobuf Message per topic (topic = Protobuf message class name)
+4. Listens to a Publisher for arrived Protobuf Message per topic (topic = Protobuf message class name)
 5. Displays in a tab, arrived Protobuf message
 6. Topic + Protobuff message can be subscribed to a specific Publisher or a global configured Publisher.
 7. Callback to handle arrived Topic+Protobuf Message can be configured per Protobuf message

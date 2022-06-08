@@ -1,0 +1,1 @@
+targetID,range,rangeAcc,azimuth,azimuthAcc,rangeRate,rangeRateAcc,azimuthRate,azimuthRateAcc,Rcs,confidence,targetAge,lastUpdateTime.seconds,lastUpdateTime.nanos,isExtrapulated,isMultiTarget,isInGauge,location.Lat,location.Lon,location.Altitude,roiID

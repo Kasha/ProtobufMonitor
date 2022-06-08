@@ -17,7 +17,7 @@ Generic Protobuf Monitor
    - Copy proto files into root folder
    - Run the following command from root folder:
      - protoc -I=C:/ProtobufMonitor/ --python_out=C:/ProtobufMonitor/ C:/ProtobufMonitor/[proto file].proto
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+2 . 
 
 Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
 

@@ -5,12 +5,12 @@ import importlib.util
 from Communication.Include.ChainResponsibilityCallback import *
 import time
 
-""" Liad Kashanovsky - 
-1. Load and Parse Protobuf messages from Protobuff pre generated modules (x_pb.py modules) 
+""" Liad Kashanovsky - GenericProto, Load and Parse Protobuf messages from Protobuf pre-generated modules (x_pb.py modules)
+1. Load and Parse Protobuf messages from Protobuf pre-generated modules (x_pb.py modules)
 2. Create Wrapper objects and setup:
-    - ChainResponsibility Callbacks 
-    - Publisher to listen with Protobuf class name as topic (Per Protobuf module or general callback)
-    - Filter Protobuf messages to ignore and attributes to hide or display
+ - ChainResponsibility Callbacks
+ - Publisher to listen with Protobuf class name as a topic (Per Protobuf module or general callback)
+ - Filter Protobuf messages to ignore and attributes to hide or display
 """
 
 class GenericProto(object):

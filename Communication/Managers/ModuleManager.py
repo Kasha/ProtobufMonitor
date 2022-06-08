@@ -5,10 +5,11 @@ import logging
 from Communication.Managers.CommunicationManager import *
 
 """Liad Kashanovsky - Module  Manager
-1. Create Communication manager for ZMQ Sub/Pub topic filtered protobuf message
-2. Create GenericProto Manager, for loading proto modules with callback and Publisher listening config
-3. Register Protobuf per topic callback and start working threads listeners and stop them
-4. Clean exit"""
+1. Create a Communication manager for ZMQ Sub/Pub topic filtered Protobuf message communication
+2. Create a GenericProto Manager, for loading proto modules with callback and Publisher listening - config
+3. Register a Protobuf per topic callback and start working threads listeners and stop them
+4. Clean exit
+"""
 class ModuleManager(object):
     def __new__(cls):
         """ creates a singleton object, if it is not created,

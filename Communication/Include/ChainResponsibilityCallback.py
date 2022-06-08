@@ -1,7 +1,8 @@
 from Communication.Defines.Defines import *
-"""Liad Kashanovsky - ChainResponsibility registered arrived protobuf message - Do Something. They should be registered by 
-Communication Manager via Module Manager, explicitly using register method or implicitly using Defines\config.yaml -> messages:callback"""
-
+"""Liad Kashanovsky - ChainResponsibility Callbacks
+Registered arrived protobuf message callback - Do Something. 
+Communication Manager should register them via Module Manager, explicitly using the register method or implicitly using Defines\config.yaml -> messages:callback
+"""
 class ChainResponsibility(object):
     def __new__(cls):
         """ creates a singleton object, if it is not created,

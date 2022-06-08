@@ -7,11 +7,11 @@ import datetime
 from Modules.Config import Configuration as MainConfig
 
 """ Liad Kashanovsky - Module UI for loaded and arrived Protobuf messages, display
-
-    Create UI tab and sub tabs for each Protobuf loaded module (Classes and attributes)
-    Each Tab (Frame) title = topic (Protobuf class name)
-    Each Protobuf attribute can be defined to be displayed or not using config.message (per specific protobuf)
-    Aggregate ChainResponsibility for Protobuff arrived messages callback as defined in config.messages"""
+    1. Create UI tab and sub-tabs for each Protobuf loaded module (Classes and attributes)
+    2. Each Tab (Frame): title = topic (Protobuf class name)
+    3. Each Protobuf attribute can be defined to be displayed or not by setting, config.message (per specific Protobuf)
+    4. Aggregate ChainResponsibility for Protobuf arrived messages callback as defined in config.messages
+"""
 
 from Communication.Managers.ModuleManager import *
 

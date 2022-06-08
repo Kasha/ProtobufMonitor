@@ -9,11 +9,11 @@ import os
 from datetime import datetime
 import csv
 
-"""Liad Kashanovsky - Communication Manager, ZMQ Sub/Pub topic filtered protobuf message
+"""Liad Kashanovsky - Communication Manager, ZMQ Sub/Pub topic filtered Protobuf message
 1. Register Protobuf Callback function
-2. Call registered callback when protobuf arrived.
-3. Protopuf is arrived via ZMQ Subscriber/Publisher communication
-4. Protobuff message is subscribed to listen to Publisher via config.server_ip:config:port
+2. Call registered callback when Protobuf arrived.
+3. Protopuf arrives via ZMQ Subscriber/Publisher communication
+4. Protobuf message is subscribed to listen to Publisher via config.server_ip:config:port
 __________________________________________________________________________________________________________
 """
 

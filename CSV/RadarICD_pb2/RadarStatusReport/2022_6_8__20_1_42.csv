@@ -1,1 +1,0 @@
-messageTime.seconds,messageTime.nanos,msgHeader.IcdVersion,msgHeader.cabID,msgHeader.messageSource,msgHeader.messageIndex,header.messageID,header.radarID,txState,operability,failReason,maxAlertRange,isOperational

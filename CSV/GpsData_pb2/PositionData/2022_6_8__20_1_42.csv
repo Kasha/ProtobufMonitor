@@ -1,1 +1,0 @@
-gpsTime.seconds,gpsTime.nanos,longitude,latitude,altitude,heading,yaw,pitch,roll,velocity,messageTime.seconds,messageTime.nanos,msgHeader.messageIndex

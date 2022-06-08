@@ -29,14 +29,15 @@ The following can be configured:
 2. Set Protobuf Messages to ignore Loading/Parsing/Listen to/Display
 3. Set a Protobuf call back when it arrived, to process message data
 4. Choose a set of Protobuf Message -> Attributes to be displayed
+5. Set write_csv = True to log in excel arrived Protobuf message
 Communication\Defines\config.yaml 
 
-Example configuration which ignores, timestamp_pb2.py, GisData_pb2.py, DataStructure_pb2.py, RailwayAI_pb2.py
-Example of attributes to display for PositionData message, defined in GPSData python Protobuff modules
+1. Example configuration which ignores, timestamp_pb2.py, GisData_pb2.py, DataStructure_pb2.py, RailwayAI_pb2.py
+2. Example of attributes to display for PositionData message, defined in GPSData python Protobuff modules
 {GpsData_pb2: {PositionData: { gpsTime: 1, longitude: 1,latitude: 1, altitude: 1, heading: 1, yaw: 1, pitch: 1, roll: 1, velocity: 1, messageTime: 1, messageIndex: 1} }}}
-Example of hidden PositionData Message attributes (or which to display):
+3. Example of hidden PositionData Message attributes (or which to display):
 Settings: messages_attr: {GpsData_pb2: {PositionData: { gpsTime: 1, longitude: 1, velocity: 1, messageTime: 1, messageIndex: 1} }}
-
+4. Exmple of global Publisher address : server:{ip: 127.0.0.1, port: 12344)
 messages: {mudules_preset: [{dir: .,filter_modules: [timestamp_pb2.py, GisData_pb2.py, DataStructure_pb2.py, RailwayAI_pb2.py], server:{ip: 127.0.0.1, port: 12344, write_csv: True, csv_frequency_sec: 0, callback: Protobuf1Callback}, filter_messages:{RadarICD_pb2: {GisPoiData: 1, GisPointsOfInterest: 1, GisSegments: 1, IMUReport: 1, RadarPresetRequest: 1, RadarPresetResponse: 1, RadarGpsData: 1, RadarMessageHeader: 1, RadarInit: 1, SetROI: 1}}, messages_server: {GpsData_pb2: {module_server:{ip: 127.0.0.1, port: 12344, write_csv: True, csv_frequency_sec: 0,callback: GpsData_pb2Callback}, message_server: {PositionData: { ip: 127.0.0.1, port: 12344, write_csv: True, csv_frequency_sec: 0, callback: PositionDataCallback}}}}, messages_attr: {GpsData_pb2: {PositionData: { gpsTime: 1, longitude: 1,latitude: 1, altitude: 1, heading: 1, yaw: 1, pitch: 1, roll: 1, velocity: 1, messageTime: 1, messageIndex: 1} }}}]}
 
 

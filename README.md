@@ -13,7 +13,10 @@ Generic Protobuf Monitor
 8. Protobuf messages and/or related attributes can be configured to be ignored or hidden
 
 ## Getting started
-
+1. Creating Python Protobuf classes (from windows)
+   - Copy proto files into root folder
+   - Run the following command from root folder:
+     - protoc -I=C:/ProtobufMonitor/ --python_out=C:/ProtobufMonitor/ C:/ProtobufMonitor/[proto file].proto
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
 Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!

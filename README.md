@@ -1,6 +1,16 @@
-# Niart_Monitor
+# ProtobufMonitor
 
 Generic Protobuf Monitor
+
+## Description
+1. Load generated python Protobuf modules (x_pb.py). 
+2. Parses them into objects. 
+3. Creates compatible UI per Peotobum message (Tab+Tilte+Attributes)
+4. Listens to Publisher for arrived Protobuf per topic (topic = Protobum message class name)
+5. Displays is a suitable tab, arrived Protobuf message
+6. Topic + Protobuff message can be subscribed to a specific Publisher or to a global configured Publisher.
+7. Callback to handle arrived Topic+Protobuf Message can be configured per Protobuf message
+8. Protobuf messages and/or related attributes can be configured to be ignored or hidden
 
 ## Getting started
 
